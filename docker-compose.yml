@@ -5,20 +5,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      target: development
     container_name: searge-frontend
     ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    stdin_open: true
-    tty: true
-    networks:
-      - searge-network
-
-networks:
-  searge-network:
-    driver: bridge
+      - "3000:3000"
+    restart: unless-stopped

@@ -1,0 +1,61 @@
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.home-title {
+    font-weight: 900;
+    text-align: center;
+}
+
+.home-search-box {
+    width: 100%;
+    max-width: 600px;
+}
+
+.home-search-input .MuiOutlinedInput-root {
+    border-radius: 50px;
+    padding-right: 8px;
+}
+
+.home-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.home-button {
+    border-radius: 8px;
+}
+
+
+/* Responsive typography */
+
+@media (max-width: 599px) {
+    .home-title {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+    .home-title {
+        font-size: 4rem;
+    }
+}
+
+@media (min-width: 960px) {
+    .home-title {
+        font-size: 5rem;
+    }
+}

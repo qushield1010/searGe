@@ -1,0 +1,9 @@
+.advanced-dialog-content {
+    margin-top: 8px;
+}
+
+.advanced-dialog-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

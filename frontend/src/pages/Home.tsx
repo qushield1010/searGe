@@ -6,27 +6,24 @@ import {
   TextField,
   Button,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  MenuItem,
   Stack,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
 import type { SearchParams } from '../types';
+import AdvancedSearch from '../components/AdvancedSearch';
+import './Home.css';
 
 export default function Home() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [advancedParams, setAdvancedParams] = useState<SearchParams>({
+  const advancedParams: SearchParams = {
     query: '',
     documentType: 'all',
     dateFrom: '',
     dateTo: '',
-  });
+  };
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -34,24 +31,23 @@ export default function Home() {
     }
   };
 
-  const handleAdvancedSearch = () => {
-    if (advancedParams.query.trim()) {
-      const params = new URLSearchParams({
-        q: advancedParams.query,
+  const handleAdvancedSearch = (params: SearchParams) => {
+    if (params.query.trim()) {
+      const urlParams = new URLSearchParams({
+        q: params.query,
       });
       
-      if (advancedParams.documentType && advancedParams.documentType !== 'all') {
-        params.append('type', advancedParams.documentType);
+      if (params.documentType && params.documentType !== 'all') {
+        urlParams.append('type', params.documentType);
       }
-      if (advancedParams.dateFrom) {
-        params.append('from', advancedParams.dateFrom);
+      if (params.dateFrom) {
+        urlParams.append('from', params.dateFrom);
       }
-      if (advancedParams.dateTo) {
-        params.append('to', advancedParams.dateTo);
+      if (params.dateTo) {
+        urlParams.append('to', params.dateTo);
       }
 
-      navigate(`/results?${params.toString()}`);
-      setAdvancedOpen(false);
+      navigate(`/results?${urlParams.toString()}`);
     }
   };
 
@@ -62,40 +58,20 @@ export default function Home() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 2,
-      }}
-    >
+    <Box className="home-container">
       <Container maxWidth="md">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 4,
-          }}
-        >
+        <Box className="home-content">
           {/* Logo/Title */}
           <Typography
             variant="h1"
-            sx={{
-              fontSize: { xs: '3rem', sm: '4rem', md: '5rem' },
-              fontWeight: 'bold',
-              color: 'primary.main',
-              textAlign: 'center',
-            }}
+            className="home-title"
+            color="primary"
           >
             searGe
           </Typography>
 
         {/* Search Box */}
-        <Box sx={{ width: '100%', maxWidth: 600 }}>
+        <Box className="home-search-box">
           <TextField
             fullWidth
             variant="outlined"
@@ -103,23 +79,18 @@ export default function Home() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyPress={handleKeyPress}
-            InputProps={{
-              sx: {
-                borderRadius: 50,
-                paddingRight: 1,
-              },
-            }}
+            className="home-search-input"
           />
         </Box>
 
         {/* Action Buttons */}
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" className="home-buttons">
           <Button
             variant="contained"
             startIcon={<SearchIcon />}
             onClick={handleSearch}
             size="large"
-            sx={{ borderRadius: 2 }}
+            className="home-button"
           >
             Search
           </Button>
@@ -128,7 +99,7 @@ export default function Home() {
             startIcon={<TuneIcon />}
             onClick={() => setAdvancedOpen(true)}
             size="large"
-            sx={{ borderRadius: 2 }}
+            className="home-button"
           >
             Advanced Search
           </Button>
@@ -137,72 +108,12 @@ export default function Home() {
       </Container>
 
       {/* Advanced Search Dialog */}
-      <Dialog
+      <AdvancedSearch
         open={advancedOpen}
         onClose={() => setAdvancedOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Advanced Search</DialogTitle>
-        <DialogContent>
-          <Stack spacing={3} sx={{ mt: 1 }}>
-            <TextField
-              fullWidth
-              label="Search Query"
-              variant="outlined"
-              value={advancedParams.query}
-              onChange={(e) =>
-                setAdvancedParams({ ...advancedParams, query: e.target.value })
-              }
-            />
-            <TextField
-              fullWidth
-              select
-              label="Document Type"
-              value={advancedParams.documentType}
-              onChange={(e) =>
-                setAdvancedParams({ ...advancedParams, documentType: e.target.value })
-              }
-            >
-              <MenuItem value="all">All Types</MenuItem>
-              <MenuItem value="pdf">PDF</MenuItem>
-              <MenuItem value="docx">DOCX</MenuItem>
-              <MenuItem value="xlsx">XLSX</MenuItem>
-              <MenuItem value="pptx">PPTX</MenuItem>
-            </TextField>
-            <TextField
-              fullWidth
-              label="Date From"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={advancedParams.dateFrom}
-              onChange={(e) =>
-                setAdvancedParams({ ...advancedParams, dateFrom: e.target.value })
-              }
-            />
-            <TextField
-              fullWidth
-              label="Date To"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={advancedParams.dateTo}
-              onChange={(e) =>
-                setAdvancedParams({ ...advancedParams, dateTo: e.target.value })
-              }
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setAdvancedOpen(false)}>Cancel</Button>
-          <Button
-            variant="contained"
-            onClick={handleAdvancedSearch}
-            startIcon={<SearchIcon />}
-          >
-            Search
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onSearch={handleAdvancedSearch}
+        initialParams={advancedParams}
+      />
     </Box>
   );
 }

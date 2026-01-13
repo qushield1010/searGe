@@ -1,5 +1,5 @@
-# Development stage
-FROM node:20-alpine AS development
+# Simple single-stage Dockerfile
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -12,29 +12,14 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Expose Vite dev server port
-EXPOSE 5173
-
-# Start development server with host binding for Docker
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
-
-# Production build stage
-FROM node:20-alpine AS build
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
+# Build the production app
 RUN npm run build
 
-# Production stage with nginx
-FROM nginx:alpine AS production
+# Install a simple HTTP server to serve the built files
+RUN npm install -g serve
 
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Expose port
+EXPOSE 3000
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the built app
+CMD ["serve", "-s", "dist", "-l", "3000"]

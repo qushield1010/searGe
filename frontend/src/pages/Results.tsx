@@ -22,6 +22,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { SearchResult, SearchParams } from '../types';
 import { searchAPI } from '../api/mockApi';
+import './Results.css';
 
 export default function Results() {
   const [searchParams] = useSearchParams();
@@ -85,21 +86,18 @@ export default function Results() {
   const totalPages = Math.ceil(totalResults / pageSize);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
+    <Box className="results-container">
       <Container maxWidth="md">
         {/* Header with Search */}
-        <Box sx={{ mb: 4 }}>
-          <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+        <Box className="results-header">
+          <Stack className="results-header-row">
             <IconButton onClick={() => navigate('/')} size="large">
               <ArrowBackIcon />
             </IconButton>
             <Typography
               variant="h4"
-              sx={{
-                fontWeight: 'bold',
-                color: 'primary.main',
-                cursor: 'pointer',
-              }}
+              className="results-title"
+              color="primary"
               onClick={() => navigate('/')}
             >
               searGe
@@ -125,7 +123,7 @@ export default function Results() {
 
         {/* Results Info */}
         {!loading && totalResults > 0 && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary" className="results-info">
             About {totalResults} results for "{currentQuery}"
             {documentType && ` (${documentType.toUpperCase()} files)`}
           </Typography>
@@ -133,18 +131,18 @@ export default function Results() {
 
         {/* Loading State */}
         {loading && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <Box className="results-loading">
             <CircularProgress />
           </Box>
         )}
 
         {/* No Results */}
         {!loading && totalResults === 0 && currentQuery && (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
+          <Box className="results-no-results">
             <Typography variant="h6" color="text.secondary">
               No results found for "{currentQuery}"
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <Typography variant="body2" color="text.secondary" className="results-no-results-subtitle">
               Try different keywords or check your spelling
             </Typography>
           </Box>
@@ -152,23 +150,19 @@ export default function Results() {
 
         {/* Results List */}
         {!loading && results.length > 0 && (
-          <Stack spacing={2}>
+          <Stack className="results-list">
             {results.map((result) => (
               <Card key={result.id} elevation={1}>
                 <CardContent>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                  <Stack className="result-card-header">
                     <DescriptionIcon color="action" fontSize="small" />
                     <Chip label={result.documentType} size="small" color="primary" />
                   </Stack>
                   <Typography
                     variant="h6"
                     component="h2"
-                    sx={{
-                      mb: 1,
-                      color: 'primary.main',
-                      cursor: 'pointer',
-                      '&:hover': { textDecoration: 'underline' },
-                    }}
+                    className="result-card-title"
+                    color="primary"
                   >
                     {result.title}
                   </Typography>
@@ -192,7 +186,7 @@ export default function Results() {
 
         {/* Pagination */}
         {!loading && totalPages > 1 && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+          <Box className="results-pagination">
             <Pagination
               count={totalPages}
               page={page}

@@ -1,0 +1,74 @@
+.results-container {
+    min-height: 100vh;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.results-header {
+    margin-bottom: 32px;
+}
+
+.results-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.results-title {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.results-info {
+    margin-bottom: 16px;
+}
+
+.results-loading {
+    display: flex;
+    justify-content: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.results-no-results {
+    text-align: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.results-no-results-subtitle {
+    margin-top: 8px;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.result-card-header {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+    align-items: flex-start;
+}
+
+.result-card-title {
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.result-card-title:hover {
+    text-decoration: underline;
+}
+
+.results-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
