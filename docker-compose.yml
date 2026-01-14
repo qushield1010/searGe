@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: searge-frontend
     ports:
-      - "${PORT:-5173}:${PORT:-5173}"
+      - "5173:5173"
     volumes:
       # In development: mount code for hot-reload
       # In production: comment out or remove volumes
