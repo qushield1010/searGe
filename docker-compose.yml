@@ -7,5 +7,23 @@ services:
       dockerfile: Dockerfile
     container_name: searge-frontend
     ports:
-      - "3000:3000"
+      - "${PORT:-5173}:${PORT:-5173}"
+    volumes:
+      # In development: mount code for hot-reload
+      # In production: comment out or remove volumes
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+    command: ${COMMAND:-npm run dev -- --host 0.0.0.0}
     restart: unless-stopped
+
+# To run in DEVELOPMENT mode (hot-reload):
+#   docker-compose up
+#   or: NODE_ENV=development docker-compose up
+#   Access at: http://localhost:5173
+#
+# To run in PRODUCTION mode (optimized build):
+#   1. Build: NODE_ENV=production COMMAND="sh -c 'npm run build && npm run serve'" PORT=3000 docker-compose up --build
+#   2. Or comment out volumes section and change command to: sh -c 'npm run build && npm run serve'
+#   Access at: http://localhost:3000

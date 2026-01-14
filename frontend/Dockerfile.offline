@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Copy pre-built Alpine-compatible node_modules
+# These were extracted from a Docker container and packaged as tar.gz
+COPY node_modules_alpine ./node_modules
+
+# Copy source code
+COPY . .
+
+# Expose ports (Vite dev: 5173, Production: 3000)
+EXPOSE 5173 3000
+
+# Default to development mode
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

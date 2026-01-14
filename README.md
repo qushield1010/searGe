@@ -27,7 +27,7 @@ A Google-like search engine for documents (PDF, Office files, etc.) built with R
 
 ## 🐳 Docker Setup (Recommended)
 
-### Start the Application
+### Quick Start - Development Mode (Hot-Reload)
 
 From the project root directory:
 
@@ -35,26 +35,44 @@ From the project root directory:
 docker-compose up
 ```
 
-The frontend will be available at **http://localhost:5173**
+The frontend will be available at **http://localhost:5173** with hot-reload enabled!
+- Edit your code → changes appear instantly
+- No rebuild needed
+
+### Production Mode
+
+```bash
+NODE_ENV=production COMMAND="sh -c 'npm run build && npm run serve'" PORT=3000 docker-compose up --build
+```
+
+The production build will be available at **http://localhost:3000**
 
 ### Docker Commands
 
 ```bash
+# Start development (hot-reload)
+docker-compose up
+
 # Start in detached mode
 docker-compose up -d
 
 # View logs
-docker-compose logs -f frontend
+docker-compose logs -f
 
 # Stop containers
 docker-compose down
 
-# Rebuild after changes
+# Rebuild (if dependencies change)
 docker-compose up --build
-
-# Production build
-docker-compose build --target production
 ```
+
+### Key Features
+
+- ✅ **Single Dockerfile** - One file for dev & prod
+- ✅ **Single docker-compose.yml** - No separate config files
+- ✅ **Hot-reload by default** - Fast development
+- ✅ **Offline-ready** - Uses local node_modules
+- ✅ **Environment-based** - Switch modes with env vars
 
 ## 💻 Local Development
 
